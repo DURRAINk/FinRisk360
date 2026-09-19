@@ -178,50 +178,24 @@ The system is designed as a decision-support tool, not an autonomous financial-d
 
 ---
 
-## Dataset
+## About Dataset
 
-The project uses a financial transaction dataset representing digital banking and electronic payment activity in an Indian context.
+🏦 Indian Banking Transactions Dataset - Data Dictionary From Kaggle.com
+[Link_to_the_dataset](https://www.kaggle.com/datasets/belbino/indian-banking-transactions-20192024)
 
-The dataset includes information about:
+Dataset Overview
 
-- Customers.
-- Banks.
-- Merchants.
-- Payment methods.
-- Transactions.
-- Authentication.
-- Devices.
-- Location.
-- Customer behavior.
-- Risk indicators.
+|Property |	Value|
+|---|---:|
+|Rows	|550,000|
+|Columns |	20|
+|Date Range	| 2019-01-01 → 2024-01-01 (5 Years)|
+|Domain	| Retail Banking / Financial Transactions|
+|Target Variable |	is_fraud|
+|Fraud Rate	| ~0.89% (realistic class imbalance) |
+|Geography |	India (10 major states) |
 
-### Target column
 
-```text
-fraud_label
-```
-
-Possible values:
-
-```text
-Legitimate
-Fraudulent
-```
-
-### Main feature groups
-
-| Feature group | Example columns |
-|---|---|
-| Transaction | `transaction_amount`, `transaction_type`, `transaction_hour` |
-| Payment | `payment_method`, `upi_app`, `currency` |
-| Customer | `customer_age`, `occupation`, `annual_income` |
-| Account | `account_type`, `account_balance` |
-| Merchant | `merchant_category`, `merchant_risk_score` |
-| Authentication | `authentication_method`, `authentication_status` |
-| Device | `device_type`, `device_brand`, `device_trust_score` |
-| Security | `login_attempts`, `failed_login_count`, `ip_risk_score` |
-| Location | `state`, `city`, `location_match`, `transaction_distance_km` |
-| Behavior | `previous_transactions`, `average_transaction_amount` |
 
 ---
 
