@@ -1,53 +1,40 @@
-# FinRisk360 (Under Developement)
+# FinRisk360
 
-## Explainable Fraud Detection for Indian Digital Payments with Azure Machine Learning
+## Big-Data Fraud Detection with Azure Databricks and Azure Machine Learning
 
-FinRisk360 is an end-to-end machine learning system for detecting potentially fraudulent digital-payment transactions across the Indian financial ecosystem.
+FinRisk360 is an end-to-end fraud-detection project for digital-payment transactions in the Indian financial ecosystem.
 
-The project uses transaction behavior, authentication signals, device information, merchant context, customer history, and location-related features to estimate fraud probability and support analyst review.
+The project uses Azure Databricks for large-scale data analysis and feature engineering, then uses Azure Machine Learning Automated ML to train, compare, register, and deploy fraud-detection models.
 
-The system is designed to demonstrate the complete machine learning lifecycle:
+The workflow demonstrates how a data scientist can move from raw transaction data to a deployed machine-learning service:
 
-- Data validation and feature engineering.
-- Fraud detection under class imbalance.
-- Leakage-aware model evaluation.
-- Explainable predictions using SHAP.
-- Experiment tracking with MLflow.
-- Model registration and deployment through Azure Machine Learning.
-- Real-time inference through a managed online endpoint.
-- Streamlit dashboard for analyst-style review.
-- Automated testing with GitHub Actions.
-
-> This is a research and portfolio project based on a limited dataset. It is not a production banking system and must not be used for real financial decisions without extensive validation, governance, security review, and regulatory approval.
-
----
-
-## Project Demo
-
-### Dashboard
-
-![FinRisk360 Dashboard](assets/dashboard-preview.png)
-
-### Prediction Example
-
-```json
-{
-  "fraud_probability": 0.84,
-  "risk_band": "High",
-  "recommended_action": "Investigate",
-  "model_version": "1"
-}
+```text
+Raw transaction data
+        ↓
+Azure Databricks
+        ↓
+Data analysis and feature engineering
+        ↓
+Versioned feature dataset
+        ↓
+Azure Machine Learning AutoML
+        ↓
+Model evaluation and MLflow tracking
+        ↓
+Azure ML model registry
+        ↓
+Managed online endpoint
+        ↓
+Fraud-risk prediction API
 ```
 
-### Architecture
-
-![FinRisk360 Architecture](assets/architecture.png)
+> This is a research and portfolio project based on a limited dataset. It is not a production banking system and must not be used for real financial decisions without extensive validation, security review, governance, and regulatory approval.
 
 ---
 
 ## Business Problem
 
-Digital-payment fraud can occur across multiple channels, including:
+Digital-payment fraud can occur through multiple channels, including:
 
 - UPI.
 - Internet banking.
@@ -58,87 +45,153 @@ Digital-payment fraud can occur across multiple channels, including:
 - Credit cards.
 - Mobile wallets.
 
-A fraud-detection system should not only classify transactions as legitimate or fraudulent. It should also:
+Banks and fintech companies need to identify suspicious transactions quickly while avoiding unnecessary declines of legitimate customer payments.
 
-1. Identify suspicious behavior.
-2. Minimize missed fraudulent transactions.
-3. Control false positives.
-4. Explain why a transaction was flagged.
-5. Support real-time scoring.
-6. Monitor the model after deployment.
+FinRisk360 aims to support fraud operations by:
 
-FinRisk360 produces a fraud probability, risk category, recommended action, and explanation for each transaction.
+1. Identifying suspicious transactions.
+2. Estimating fraud probability.
+3. Prioritizing transactions for investigation.
+4. Providing explainable risk signals.
+5. Supporting real-time scoring through an Azure ML endpoint.
+
+The system is designed as a decision-support tool, not an autonomous financial-decision system.
 
 ---
 
-## Key Features
+## Project Objectives
 
-### Fraud classification
+- Analyze large-scale transaction data using Azure Databricks and Apache Spark.
+- Clean and validate financial transaction data.
+- Engineer behavioral, transaction, customer, and risk-related features.
+- Track Databricks processing and experiments with MLflow where required.
+- Use Azure Machine Learning AutoML for model experimentation.
+- Compare candidate fraud-detection models.
+- Register the approved model in Azure Machine Learning.
+- Deploy the model to an Azure ML managed online endpoint.
+- Return fraud probability, risk band, and recommended action.
+- Provide model explanations using SHAP.
+- Demonstrate an end-to-end cloud MLOps workflow.
 
-The system predicts whether a transaction is:
+---
 
-- `Legitimate`
-- `Fraudulent`
+## Architecture
 
-### Risk-based decision support
+```text
+                    ┌─────────────────────┐
+                    │ Raw Transaction Data│
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Azure Storage        │
+                    │ Data Lake / Blob     │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Azure Databricks     │
+                    │                     │
+                    │ - Data validation   │
+                    │ - EDA               │
+                    │ - Spark processing  │
+                    │ - Feature engineering│
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Versioned Feature    │
+                    │ Dataset              │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Azure ML AutoML      │
+                    │                     │
+                    │ - Model search      │
+                    │ - Model comparison  │
+                    │ - Evaluation        │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Azure ML + MLflow    │
+                    │ Experiment Tracking  │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Azure ML Model       │
+                    │ Registry             │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Managed Online       │
+                    │ Endpoint             │
+                    └──────────┬──────────┘
+                               │
+                 ┌─────────────┴─────────────┐
+                 ▼                           ▼
+       ┌──────────────────┐         ┌──────────────────┐
+       │ Streamlit        │         │ REST/API Client   │
+       │ Dashboard        │         │                  │
+       └──────────────────┘         └──────────────────┘
+```
 
-Transactions are assigned to operational risk bands:
+---
 
-| Risk band | Suggested action |
-|---|---|
-| Low | Approve |
-| Medium | Send for analyst review |
-| High | Investigate or hold |
+## Technology Stack
 
-The thresholds are selected using validation results and business-cost assumptions rather than an arbitrary probability of 0.5.
+### Data engineering and analysis
 
-### Explainable predictions
+- Azure Databricks.
+- Apache Spark.
+- PySpark.
+- Python.
+- SQL.
+- pandas.
 
-Each prediction can include reason codes such as:
+### Machine learning
 
-- Transaction amount is unusually high compared with the customer's historical average.
-- Transaction originated from a new device.
-- Transaction location does not match the customer's usual location.
-- Multiple failed login attempts were detected.
-- Merchant or IP risk score is elevated.
+- Azure Machine Learning AutoML.
+- scikit-learn.
+- XGBoost or other AutoML-selected models.
+- SHAP.
+- Precision–recall analysis.
+- Cost-sensitive threshold selection.
 
-### Azure ML lifecycle
+### Experiment tracking and MLOps
 
-The project uses Azure Machine Learning for:
+- MLflow in Azure Databricks for Databricks-side experiments, where required.
+- MLflow in Azure Machine Learning for AutoML experiment tracking and final model lineage.
+- Azure ML model registry.
+- Azure ML managed online endpoint.
+- GitHub for source control.
+- GitHub Actions for basic testing.
 
-- Data-asset management.
-- Reproducible training jobs.
-- MLflow experiment tracking.
-- Model registration.
-- Managed online endpoint deployment.
-- Model and endpoint lifecycle management.
+### Application
 
-### Testing and automation
-
-The repository includes:
-
-- Unit tests.
-- Input-validation tests.
-- Model-output tests.
-- GitHub Actions CI.
-- Reproducible configuration.
+- Streamlit.
+- REST API.
+- JSON input and output.
 
 ---
 
 ## Dataset
 
-The dataset contains 15,000 financial transaction records representing digital banking and electronic payment activities in an Indian financial context.
+The project uses a financial transaction dataset representing digital banking and electronic payment activity in an Indian context.
 
-It includes information about:
+The dataset includes information about:
 
 - Customers.
 - Banks.
 - Merchants.
-- Transactions.
 - Payment methods.
+- Transactions.
 - Authentication.
 - Devices.
-- Locations.
+- Location.
 - Customer behavior.
 - Risk indicators.
 
@@ -170,50 +223,49 @@ Fraudulent
 | Location | `state`, `city`, `location_match`, `transaction_distance_km` |
 | Behavior | `previous_transactions`, `average_transaction_amount` |
 
-### Dataset limitations
-
-The dataset may be synthetic or simulated. Therefore:
-
-- Results should not be interpreted as real banking performance.
-- The fraud distribution may not match production data.
-- Some risk-score features may already encode information related to fraud.
-- A reliable transaction timestamp may not be available.
-- Generalization to real financial institutions has not been established.
-
 ---
 
-## Leakage Audit
+## Data Processing in Azure Databricks
 
-Financial fraud datasets can contain features that make a model appear stronger than it would be in production.
+Azure Databricks is used for big-data analysis and feature engineering.
 
-The following features were specifically reviewed:
+### Processing workflow
 
-- `merchant_risk_score`
-- `device_trust_score`
-- `ip_risk_score`
-- `authentication_status`
-- `new_device`
-- `location_match`
-- `high_value_transaction`
-- `failed_login_count`
-- `beneficiary_age_days`
+```text
+Raw data
+   ↓
+Schema validation
+   ↓
+Data-quality checks
+   ↓
+Duplicate removal
+   ↓
+Missing-value handling
+   ↓
+Leakage review
+   ↓
+Feature engineering
+   ↓
+Feature dataset output
+```
 
-The project compares multiple feature configurations:
+### Data-quality checks
 
-| Experiment | Description |
-|---|---|
-| Full model | Uses all approved features |
-| Risk-score ablation | Removes merchant, device, and IP risk scores |
-| Authentication ablation | Removes authentication-related fields |
-| Context-only model | Uses transaction, customer, merchant, and behavioral context |
+The Databricks workflow checks:
 
-This analysis helps determine whether performance depends heavily on precomputed risk indicators or potentially leaky features.
+- Column names and data types.
+- Missing values.
+- Duplicate transactions.
+- Invalid numerical values.
+- Unexpected categorical values.
+- Fraud-label consistency.
+- Identifier uniqueness.
+- Class distribution.
+- Feature availability at prediction time.
 
----
+### Engineered features
 
-## Feature Engineering
-
-The project creates behavior-based and transaction-context features such as:
+Examples include:
 
 ```text
 amount_to_average_ratio
@@ -235,41 +287,111 @@ Example:
 {\text{average\_transaction\_amount}+\epsilon}
 \]
 
-All engineered features are reviewed for:
+Every engineered feature is reviewed for:
 
-- Availability at prediction time.
+- Business meaning.
+- Availability at decision time.
 - Target leakage.
 - Missing values.
 - Extreme values.
-- Business interpretability.
+- Production usability.
 
 ---
 
-## Machine Learning Approach
+## MLflow Strategy
 
-### Baseline model
+MLflow is used in both platforms, but for different purposes.
 
-The project begins with Logistic Regression because it is:
+### MLflow in Azure Databricks
 
-- Interpretable.
-- Fast to train.
-- Useful as a reference point.
-- Suitable for probability-based decisions.
+Databricks-side MLflow is used optionally to track:
 
-### Tree-based model
+- Data-processing jobs.
+- Feature-engineering versions.
+- Spark-based model experiments.
+- Input and output dataset versions.
+- Data-quality statistics.
+- Feature counts.
+- Git commit information.
 
-A tree-based model such as XGBoost or Random Forest is used to capture nonlinear relationships between:
+Example metadata:
 
-- Transaction amount.
-- Customer behavior.
-- Device signals.
-- Authentication activity.
-- Merchant risk.
-- Location mismatch.
+```text
+source_dataset = indian-digital-payment-fraud
+feature_version = v1
+processing_platform = azure-databricks
+feature_count = <value>
+row_count = <value>
+```
+
+### MLflow in Azure Machine Learning
+
+Azure ML MLflow is the authoritative tracking layer for the final modeling workflow.
+
+It tracks:
+
+- AutoML runs.
+- Candidate models.
+- Parameters.
+- Metrics.
+- Validation results.
+- Feature schema.
+- Model artifacts.
+- Dataset version.
+- Model version.
+- Deployment metadata.
+
+### Model registry decision
+
+The final approved model is registered in the Azure Machine Learning model registry.
+
+The same final model is not registered separately in multiple registries unless there is a specific organizational requirement.
+
+The simplified lifecycle is:
+
+```text
+Databricks MLflow
+        ↓
+Track data and feature engineering
+        ↓
+Azure ML data asset
+        ↓
+Azure ML MLflow
+        ↓
+Track AutoML experiments
+        ↓
+Azure ML model registry
+        ↓
+Azure ML endpoint
+```
+
+Azure Databricks provides MLflow tracking and model lifecycle capabilities, while Azure ML supports MLflow-based tracking, model registration, and deployment workflows. [238][235]
+
+---
+
+## Azure Machine Learning AutoML
+
+The engineered feature dataset is registered as an Azure ML data asset and used as input for AutoML.
+
+### AutoML workflow
+
+```text
+Versioned feature dataset
+        ↓
+Azure ML classification AutoML job
+        ↓
+Candidate model training
+        ↓
+Metric comparison
+        ↓
+Best-model selection
+        ↓
+SHAP and error analysis
+        ↓
+Model registration
+```
 
 ### Evaluation metrics
-
-Because fraud detection is usually imbalanced, accuracy is not the primary metric.
 
 The project evaluates:
 
@@ -283,23 +405,78 @@ The project evaluates:
 - Expected business cost.
 - Probability calibration.
 
+Accuracy is not used as the only success metric because fraud detection is usually an imbalanced classification problem.
+
 ### Results
 
-Replace the following values with results from your experiments.
+Replace the placeholders below with actual values:
 
 | Model | PR-AUC | ROC-AUC | Precision | Recall | F1-score |
 |---|---:|---:|---:|---:|---:|
-| Logistic Regression | `<value>` | `<value>` | `<value>` | `<value>` | `<value>` |
-| Random Forest | `<value>` | `<value>` | `<value>` | `<value>` | `<value>` |
-| XGBoost | `<value>` | `<value>` | `<value>` | `<value>` | `<value>` |
+| Baseline Logistic Regression | `<value>` | `<value>` | `<value>` | `<value>` | `<value>` |
+| AutoML Best Model | `<value>` | `<value>` | `<value>` | `<value>` | `<value>` |
 
-> Do not publish placeholder values. Replace every metric before making the repository public.
+Do not publish placeholder metrics.
+
+---
+
+## Leakage Audit
+
+Potentially sensitive or leakage-prone features include:
+
+- `merchant_risk_score`
+- `device_trust_score`
+- `ip_risk_score`
+- `authentication_status`
+- `new_device`
+- `location_match`
+- `high_value_transaction`
+- `failed_login_count`
+- `beneficiary_age_days`
+
+The project compares multiple feature configurations:
+
+| Experiment | Description |
+|---|---|
+| Full valid feature set | Uses approved features after initial audit |
+| Risk-score ablation | Removes precomputed risk-score features |
+| Authentication ablation | Removes authentication-related fields |
+| Context-only model | Uses transaction, customer, merchant, and behavioral context |
+
+The purpose is to determine whether performance depends heavily on precomputed risk indicators or features that may not be available at the time of prediction.
+
+---
+
+## Risk-Based Decision Logic
+
+The system returns a fraud probability and maps it to an operational risk band.
+
+```text
+Low risk       → Approve
+Medium risk    → Analyst review
+High risk      → Investigate or hold
+```
+
+Example:
+
+```json
+{
+  "fraud_probability": 0.84,
+  "risk_band": "High",
+  "recommended_action": "Investigate",
+  "model_version": "1"
+}
+```
+
+The thresholds are selected using validation results, fraud recall, false-positive rate, and expected business cost.
+
+The model is intended to support human decision-making. It does not independently approve, reject, or block real financial transactions.
 
 ---
 
 ## Explainability
 
-SHAP is used to inspect global and transaction-level model behavior.
+SHAP is used to explain global model behavior and individual predictions.
 
 Example:
 
@@ -310,89 +487,34 @@ Recommended action: Investigate
 
 Main contributing factors:
 - Transaction amount is significantly higher than usual.
-- Transaction originated from a new device.
-- Location differs from the customer's normal location.
+- A new device was used.
+- Transaction location does not match the customer's normal location.
 - Multiple failed login attempts were recorded.
 ```
 
-SHAP explanations describe factors that influenced the model's prediction. They should not be interpreted as proof that a feature caused fraud.
+SHAP values describe features that influenced the model prediction. They should not be interpreted as proof that a feature caused fraud.
 
 ---
 
-## System Architecture
+## Azure ML Deployment
+
+The approved model is deployed to an Azure ML managed online endpoint for real-time inference.
 
 ```text
-                    ┌─────────────────────┐
-                    │  Raw Transaction Data│
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Data Validation      │
-                    │ and Feature Creation │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Azure ML Data Asset  │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Azure ML Training Job│
-                    │ + MLflow Tracking    │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Registered Model     │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Managed Online       │
-                    │ Endpoint             │
-                    └──────────┬──────────┘
-                               │
-                 ┌─────────────┴─────────────┐
-                 ▼                           ▼
-       ┌──────────────────┐         ┌──────────────────┐
-       │ Streamlit        │         │ REST/API Client   │
-       │ Analyst Dashboard│         │                  │
-       └──────────────────┘         └──────────────────┘
+Registered model
+        ↓
+Scoring script
+        ↓
+Environment
+        ↓
+Managed online endpoint
+        ↓
+REST prediction request
 ```
 
----
+Azure ML managed online endpoints are used for real-time model inference and deployment management. [165]
 
-## Azure ML Workflow
-
-```text
-1. Register the dataset as an Azure ML data asset.
-2. Submit a reproducible Azure ML training job.
-3. Track parameters, metrics, and artifacts with MLflow.
-4. Evaluate the trained model.
-5. Register the approved model.
-6. Deploy the model to a managed online endpoint.
-7. Send real-time scoring requests.
-8. Monitor endpoint and model behavior.
-```
-
-### Azure ML components
-
-| Component | Purpose |
-|---|---|
-| Azure ML Workspace | Central project workspace |
-| Data Asset | Versioned dataset reference |
-| Compute | Training and inference resources |
-| Command Job | Reproducible training execution |
-| MLflow | Experiment and metric tracking |
-| Model Registry | Model version management |
-| Managed Online Endpoint | Real-time prediction service |
-| Application Insights / Azure Monitor | Operational monitoring |
-
----
-
-## Example API Request
+### Example API request
 
 ```bash
 curl -X POST "<AZURE_ML_ENDPOINT_URL>/score" \
@@ -411,7 +533,7 @@ curl -X POST "<AZURE_ML_ENDPOINT_URL>/score" \
   }'
 ```
 
-### Example API Response
+### Example response
 
 ```json
 {
@@ -432,31 +554,73 @@ Do not commit real endpoint URLs, tokens, keys, or connection strings to GitHub.
 
 ---
 
+## Streamlit Dashboard
+
+The dashboard provides an analyst-style interface with:
+
+### Transaction scoring
+
+- Transaction input form.
+- Fraud probability.
+- Risk band.
+- Recommended action.
+- Reason codes.
+
+### Model performance
+
+- PR-AUC.
+- Precision.
+- Recall.
+- Confusion matrix.
+- SHAP feature importance.
+
+### Risk overview
+
+- Risk-band distribution.
+- Fraud distribution.
+- Payment-method analysis.
+- Merchant-category analysis.
+- State-level summary.
+
+### Run locally
+
+```bash
+streamlit run dashboard/app.py
+```
+
+---
+
 ## Repository Structure
 
 ```text
 finrisk360/
 ├── data/
 │   └── README.md
-├── notebooks/
-│   ├── 01_data_audit.ipynb
-│   └── 02_model_analysis.ipynb
+├── databricks/
+│   ├── notebooks/
+│   │   ├── 01_data_audit.py
+│   │   ├── 02_feature_engineering.py
+│   │   └── 03_feature_export.py
+│   ├── jobs/
+│   │   └── feature_pipeline.yml
+│   └── README.md
+├── azureml/
+│   ├── data_asset.yml
+│   ├── automl_job.yml
+│   ├── endpoint.yml
+│   └── deployment.yml
 ├── src/
-│   ├── preprocess.py
-│   ├── feature_engineering.py
-│   ├── train.py
+│   ├── validation.py
+│   ├── preprocessing.py
 │   ├── evaluate.py
-│   └── explain.py
+│   ├── explain.py
+│   └── predict.py
 ├── api/
 │   └── score.py
 ├── dashboard/
 │   └── app.py
-├── azureml/
-│   ├── train_job.yml
-│   ├── endpoint.yml
-│   └── deployment.yml
 ├── tests/
-│   ├── test_preprocess.py
+│   ├── test_validation.py
 │   ├── test_features.py
 │   ├── test_model.py
 │   └── test_api.py
@@ -469,8 +633,8 @@ finrisk360/
 │       └── ci.yml
 ├── .env.example
 ├── .gitignore
-├── Dockerfile
 ├── requirements.txt
+├── Dockerfile
 └── README.md
 ```
 
@@ -513,10 +677,10 @@ pip install -r requirements.txt
 ### Run tests
 
 ```bash
-pytest
+pytest -v
 ```
 
-### Run the dashboard locally
+### Run the dashboard
 
 ```bash
 streamlit run dashboard/app.py
@@ -524,7 +688,31 @@ streamlit run dashboard/app.py
 
 ---
 
-## Azure ML Setup
+## Azure Databricks Setup
+
+Use Azure Databricks for large-scale data analysis and feature engineering.
+
+The Databricks workflow should:
+
+1. Read data from Azure Storage.
+2. Validate the schema.
+3. Analyze missing values and duplicates.
+4. Create engineered features with PySpark.
+5. Write the curated feature dataset.
+6. Record feature and dataset metadata.
+7. Make the output available to Azure ML.
+
+Example output:
+
+```text
+abfss://features@<STORAGE_ACCOUNT>.dfs.core.windows.net/fraud_features/
+```
+
+Do not commit storage account keys or connection strings. Use managed identity, secret scopes, or secure environment configuration.
+
+---
+
+## Azure Machine Learning Setup
 
 Install the Azure ML CLI extension:
 
@@ -532,7 +720,7 @@ Install the Azure ML CLI extension:
 az extension add -n ml
 ```
 
-Log in to Azure:
+Log in:
 
 ```bash
 az login
@@ -544,16 +732,25 @@ Set the subscription:
 az account set --subscription "<SUBSCRIPTION_ID>"
 ```
 
-Submit the training job:
+Register the engineered feature dataset:
 
 ```bash
-az ml job create \
-  --file azureml/train_job.yml \
+az ml data create \
+  --file azureml/data_asset.yml \
   --resource-group "<RESOURCE_GROUP>" \
   --workspace-name "<WORKSPACE_NAME>"
 ```
 
-Deploy the endpoint:
+Submit the AutoML job:
+
+```bash
+az ml job create \
+  --file azureml/automl_job.yml \
+  --resource-group "<RESOURCE_GROUP>" \
+  --workspace-name "<WORKSPACE_NAME>"
+```
+
+Create the endpoint:
 
 ```bash
 az ml online-endpoint create \
@@ -561,6 +758,8 @@ az ml online-endpoint create \
   --resource-group "<RESOURCE_GROUP>" \
   --workspace-name "<WORKSPACE_NAME>"
 ```
+
+Deploy the model:
 
 ```bash
 az ml online-deployment create \
@@ -570,22 +769,23 @@ az ml online-deployment create \
   --endpoint-name "<ENDPOINT_NAME>"
 ```
 
-Replace placeholder values with your own Azure resources. Never commit credentials or secrets.
+Replace all placeholder values with your Azure resources.
 
 ---
 
 ## Testing
 
-The test suite validates:
+The test suite checks:
 
-- Data preprocessing.
-- Feature creation.
+- Schema validation.
 - Missing-value handling.
+- Feature calculations.
+- Input validation.
 - Prediction probability range.
 - Risk-band assignment.
-- API input validation.
-- Model artifact loading.
-- Error handling.
+- Model loading.
+- API responses.
+- Invalid request handling.
 
 Run:
 
@@ -593,85 +793,123 @@ Run:
 pytest -v
 ```
 
-The GitHub Actions workflow runs automated checks on pushes and pull requests.
+GitHub Actions runs the test suite on pushes and pull requests.
 
 ---
 
-## Responsible AI and Limitations
+## Security
 
-This project is intended for research and portfolio demonstration only.
+Never commit:
 
-Important limitations:
+```text
+.env
+Azure credentials
+API keys
+Storage connection strings
+Access tokens
+Raw sensitive transaction data
+Private certificates
+```
 
-- The dataset contains only 15,000 records.
+Recommended `.gitignore` entries:
+
+```gitignore
+.venv/
+.env
+.vscode/
+__pycache__/
+.ipynb_checkpoints/
+data/raw/
+data/processed/
+*.csv
+*.parquet
+*.key
+*.pem
+```
+
+For real Azure deployments, use secure authentication such as managed identities, secret management, or federated GitHub authentication.
+
+---
+
+## Limitations
+
+This project is a proof of concept.
+
+Known limitations include:
+
+- The dataset is limited in size.
 - The dataset may be synthetic or simulated.
-- The fraud distribution may not represent real banking data.
-- Some risk-score features may contain proxy information.
-- The available fields may not include a reliable transaction timestamp.
-- The model has not been validated on live financial transactions.
-- No automated financial decision should be made solely from this model.
-- Real deployment would require security, privacy, fairness, auditability, human oversight, and regulatory review.
-
-Before production use, the system would require:
-
-- Independent validation.
-- Temporal out-of-sample testing.
-- Bias and fairness assessment.
-- Data-drift monitoring.
-- Security testing.
-- Access control.
-- Privacy review.
-- Human-in-the-loop procedures.
-- Incident-response processes.
-- Formal model governance.
+- The fraud distribution may not match real production traffic.
+- Precomputed risk features may introduce target leakage.
+- A reliable transaction timestamp may not be available.
+- The model has not been validated on live banking data.
+- The model may not generalize to other banks, customers, or payment platforms.
+- No production financial decision should be made solely from this model.
+- Real deployment would require privacy, security, fairness, governance, monitoring, and regulatory review.
 
 ---
 
 ## Future Improvements
 
-Potential next steps include:
-
 - Add reliable transaction timestamps.
-- Evaluate temporal and rolling-window features.
-- Add transaction velocity features.
-- Test graph-based customer–merchant relationships.
-- Add model calibration monitoring.
-- Add data-drift detection.
-- Add analyst feedback loops.
+- Use chronological validation.
+- Add customer and merchant velocity features.
+- Add model-drift monitoring.
+- Add analyst feedback.
+- Add human-in-the-loop review workflows.
 - Add challenger models.
-- Add controlled model rollbacks.
+- Add model rollback procedures.
+- Add automated retraining.
 - Add Azure Monitor and Application Insights dashboards.
-- Add secure deployment through managed identity.
-- Add a grounded fraud-investigation policy assistant.
-- Evaluate the system on a larger and independently sourced dataset.
+- Add graph-based customer–merchant analysis.
+- Test on a larger independently sourced dataset.
+- Add secure private networking for the endpoint.
+
+Azure ML supports endpoint deployment and security configurations such as restricting public network access for managed online endpoints. [240]
 
 ---
 
 ## Learning Outcomes
 
-This project demonstrates practical experience with:
+This project demonstrates experience with:
 
-- Python.
+- Azure Databricks.
+- Apache Spark.
+- PySpark.
 - SQL.
-- Data cleaning.
+- Big-data analysis.
 - Feature engineering.
+- Data validation.
+- Fraud detection.
 - Imbalanced classification.
-- Leakage prevention.
-- Cost-sensitive evaluation.
-- Explainable AI.
-- SHAP.
+- Precision–recall evaluation.
+- Leakage analysis.
+- AutoML.
 - MLflow.
 - Azure Machine Learning.
 - Model registration.
-- Managed online endpoints.
-- REST APIs.
+- Online endpoint deployment.
+- SHAP explainability.
 - Streamlit.
-- Testing.
+- GitHub.
 - GitHub Actions.
 - MLOps fundamentals.
-- Technical documentation.
 
 ---
+
+## Author
+
+**<YOUR_NAME>**
+
+- GitHub: [@<YOUR_GITHUB_USERNAME>](https://github.com/<YOUR_GITHUB_USERNAME>)
+- LinkedIn: [<YOUR_LINKEDIN_PROFILE>](<YOUR_LINKEDIN_URL>)
+- Email: `<YOUR_EMAIL>`
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ## Author
 
