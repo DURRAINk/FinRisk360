@@ -1,0 +1,1674 @@
+{
+  "datasets": [
+    {
+      "name": "3a213df2",
+      "displayName": "brz_data_audit",
+      "queryLines": [
+        "select * from brz_bank_transactions"
+      ],
+      "catalog": "finrisk360",
+      "schema": "default"
+    },
+    {
+      "name": "c9db39cf",
+      "displayName": "Numerical_corr",
+      "queryLines": [
+        "-- Example: correlation matrix for 5 features\r\n",
+        "WITH features AS (\r\n",
+        "  SELECT\r\n",
+        "    corr(account_balance, transaction_amount) AS corr_ab_ta,\r\n",
+        "    corr(account_balance, transaction_hour)   AS corr_ab_th,\r\n",
+        "    corr(account_balance, credit_score)       AS corr_ab_cs,\r\n",
+        "    corr(account_balance, emi_amount)         AS corr_ab_emi,\r\n",
+        "    corr(transaction_amount, transaction_hour) AS corr_ta_th,\r\n",
+        "    corr(transaction_amount, credit_score)     AS corr_ta_cs,\r\n",
+        "    corr(transaction_amount, emi_amount)       AS corr_ta_emi,\r\n",
+        "    corr(transaction_hour, credit_score)       AS corr_th_cs,\r\n",
+        "    corr(transaction_hour, emi_amount)         AS corr_th_emi,\r\n",
+        "    corr(credit_score, emi_amount)             AS corr_cs_emi\r\n",
+        "  FROM brz_bank_transactions\r\n",
+        "  WHERE account_balance IS NOT NULL\r\n",
+        "    AND transaction_amount IS NOT NULL\r\n",
+        "    AND transaction_hour IS NOT NULL\r\n",
+        "    AND credit_score IS NOT NULL\r\n",
+        "    AND emi_amount IS NOT NULL\r\n",
+        ")\r\n",
+        "SELECT * FROM features;\r\n"
+      ]
+    },
+    {
+      "name": "correlation_matrix_bank_transactions",
+      "displayName": "Bank Transaction Correlation Matrix",
+      "config": {
+        "version": "1.1",
+        "source": "SELECT 'account_balance' AS feature_x, 'account_balance' AS feature_y, CORR(account_balance, account_balance) AS correlation FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'account_balance', 'credit_score', CORR(account_balance, credit_score) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'account_balance', 'emi_amount', CORR(account_balance, emi_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'account_balance', 'has_loan', CORR(account_balance, has_loan) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'account_balance', 'is_fraud', CORR(account_balance, is_fraud) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'account_balance', 'transaction_amount', CORR(account_balance, transaction_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'account_balance', 'transaction_hour', CORR(account_balance, transaction_hour) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'credit_score', 'account_balance', CORR(credit_score, account_balance) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'credit_score', 'credit_score', CORR(credit_score, credit_score) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'credit_score', 'emi_amount', CORR(credit_score, emi_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'credit_score', 'has_loan', CORR(credit_score, has_loan) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'credit_score', 'is_fraud', CORR(credit_score, is_fraud) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'credit_score', 'transaction_amount', CORR(credit_score, transaction_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'credit_score', 'transaction_hour', CORR(credit_score, transaction_hour) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'emi_amount', 'account_balance', CORR(emi_amount, account_balance) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'emi_amount', 'credit_score', CORR(emi_amount, credit_score) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'emi_amount', 'emi_amount', CORR(emi_amount, emi_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'emi_amount', 'has_loan', CORR(emi_amount, has_loan) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'emi_amount', 'is_fraud', CORR(emi_amount, is_fraud) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'emi_amount', 'transaction_amount', CORR(emi_amount, transaction_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'emi_amount', 'transaction_hour', CORR(emi_amount, transaction_hour) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'has_loan', 'account_balance', CORR(has_loan, account_balance) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'has_loan', 'credit_score', CORR(has_loan, credit_score) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'has_loan', 'emi_amount', CORR(has_loan, emi_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'has_loan', 'has_loan', CORR(has_loan, has_loan) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'has_loan', 'is_fraud', CORR(has_loan, is_fraud) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'has_loan', 'transaction_amount', CORR(has_loan, transaction_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'has_loan', 'transaction_hour', CORR(has_loan, transaction_hour) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'is_fraud', 'account_balance', CORR(is_fraud, account_balance) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'is_fraud', 'credit_score', CORR(is_fraud, credit_score) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'is_fraud', 'emi_amount', CORR(is_fraud, emi_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'is_fraud', 'has_loan', CORR(is_fraud, has_loan) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'is_fraud', 'is_fraud', CORR(is_fraud, is_fraud) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'is_fraud', 'transaction_amount', CORR(is_fraud, transaction_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'is_fraud', 'transaction_hour', CORR(is_fraud, transaction_hour) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_amount', 'account_balance', CORR(transaction_amount, account_balance) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_amount', 'credit_score', CORR(transaction_amount, credit_score) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_amount', 'emi_amount', CORR(transaction_amount, emi_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_amount', 'has_loan', CORR(transaction_amount, has_loan) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_amount', 'is_fraud', CORR(transaction_amount, is_fraud) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_amount', 'transaction_amount', CORR(transaction_amount, transaction_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_amount', 'transaction_hour', CORR(transaction_amount, transaction_hour) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_hour', 'account_balance', CORR(transaction_hour, account_balance) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_hour', 'credit_score', CORR(transaction_hour, credit_score) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_hour', 'emi_amount', CORR(transaction_hour, emi_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_hour', 'has_loan', CORR(transaction_hour, has_loan) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_hour', 'is_fraud', CORR(transaction_hour, is_fraud) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_hour', 'transaction_amount', CORR(transaction_hour, transaction_amount) FROM finrisk360.default.brz_bank_transactions UNION ALL SELECT 'transaction_hour', 'transaction_hour', CORR(transaction_hour, transaction_hour) FROM finrisk360.default.brz_bank_transactions\n",
+        "dimensions": [
+          {
+            "name": "feature_x",
+            "expr": "feature_x",
+            "displayName": "Feature X"
+          },
+          {
+            "name": "feature_y",
+            "expr": "feature_y",
+            "displayName": "Feature Y"
+          }
+        ],
+        "measures": [
+          {
+            "name": "correlation",
+            "expr": "AVG(correlation)",
+            "displayName": "Correlation",
+            "format": {
+              "type": "number",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              },
+              "abbreviation": "none"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "dce70a66",
+      "displayName": "data_audit",
+      "layout": [
+        {
+          "widget": {
+            "name": "88ef6731",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"text-align:center;display:block;\"><span style=\"font-size: 20px;font-weight: 700;\">Data Audition</span></span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "fraud-legit-records-percentage",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    },
+                    {
+                      "name": "is_fraud",
+                      "expression": "`is_fraud`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\">Fraud & Legit records Percentage</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "is_fraud",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 1,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "total-records",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\"><span style=\"font-size: 18px;\">Total Records</span></span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "count(*)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "total-customers",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "countdistinct(customer_id)",
+                      "expression": "COUNT(DISTINCT `customer_id`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\"><span style=\"font-size: 18px;\">Total Customers</span></span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "countdistinct(customer_id)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 1,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "no-of-states",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "countdistinct(state)",
+                      "expression": "COUNT(DISTINCT `state`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block\"><span style=\"font-size:18px\">No. of States</span></span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "countdistinct(state)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "af6b72b8",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "sum(is_fraud)",
+                      "expression": "SUM(`is_fraud`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": {
+                  "value": "<span style=\"font-size: 18px;\">Total Fraud Transactions</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(is_fraud)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 4,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "1e68f2cd",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"text-align:center;display:block;\"><span style=\"font-size: 20px;font-weight: 700;\">Report</span></span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "e33ecae9",
+            "multilineTextboxSpec": {
+              "lines": [
+                "* `is_fraud`  (The Target Class) is highly Imbalanced."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 12,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "b6e29a08",
+      "displayName": "Numerical_features_distributions",
+      "layout": [
+        {
+          "widget": {
+            "name": "account-balance-distribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "bin(account_balance, binWidth=500000)",
+                      "expression": "BIN_FLOOR(`account_balance`, 500000)"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\"><span style=\"font-size: 14px;\">Account Balance Distribution</span></span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "bin(account_balance, binWidth=500000)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "42e94938",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"text-align:center;display:block\"><span style=\"font-weight: 700;font-size: 20px;\">Numerical Features Distribution</span></span>"
+              ]
+            },
+            "specExtensions": {
+              "widgetBorderColor": {
+                "dark": "#0A70C5"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "transaction-amount-distribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "bin(transaction_amount, binWidth=1000000)",
+                      "expression": "BIN_FLOOR(`transaction_amount`, 1000000)"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\"><span style=\"font-size: 14px;\">Transaction Amount Distribution</span></span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "bin(transaction_amount, binWidth=1000000)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 1,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "credit-score-distribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "bin(credit_score, binWidth=50)",
+                      "expression": "BIN_FLOOR(`credit_score`, 50)"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\"><span style=\"font-size: 14px;\">Credit Score Distribution</span></span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "bin(credit_score, binWidth=50)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "emi-amount-distribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "bin(emi_amount, binWidth=10000)",
+                      "expression": "BIN_FLOOR(`emi_amount`, 10000)"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\"><span style=\"font-size: 14px;\">EMI Amount Distribution</span></span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "bin(emi_amount, binWidth=10000)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 7,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "ab10859e",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"text-align:center;display:block\"><span style=\"font-size:20px;font-weight:700\">                                                                            Correlations</span></span>"
+              ]
+            },
+            "specExtensions": {
+              "widgetBorderColor": {
+                "dark": "#008BFF"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 19,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "9672077b",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "correlation_matrix_bank_transactions",
+                  "fields": [
+                    {
+                      "name": "measure(correlation)",
+                      "expression": "MEASURE(`correlation`)"
+                    },
+                    {
+                      "name": "feature_x",
+                      "expression": "`feature_x`"
+                    },
+                    {
+                      "name": "feature_y",
+                      "expression": "`feature_y`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": "Correlation Matrix"
+              },
+              "version": 3,
+              "widgetType": "heatmap",
+              "encodings": {
+                "x": {
+                  "fieldName": "feature_x",
+                  "axis": {
+                    "labelAngle": 45,
+                    "title": "Feature"
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "feature_y",
+                  "axis": {
+                    "title": "Feature"
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "color": {
+                  "fieldName": "measure(correlation)",
+                  "scale": {
+                    "type": "quantitative",
+                    "domain": {
+                      "min": -1,
+                      "max": 1
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 20,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "67598566",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"text-align:center;display:block;\"><span style=\"font-size: 20px;font-weight: 700;\">Report</span></span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 26,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "353f9753",
+            "multilineTextboxSpec": {
+              "lines": [
+                "* Data is highly Right skewed and there are Outliers possibilities in the `Account_Balance` , `Transaction_amount` , and `EMI_amount`  Fields.\n",
+                "* `emi_amount`  and `has_loan`  are effectively Correlated.\n",
+                "* `credit_score` is uniformly distrubuted."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 27,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "transaction-hourly-distribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "bin(transaction_hour, binWidth=1)",
+                      "expression": "BIN_FLOOR(`transaction_hour`, 1)"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\">Transaction Hourly Distribution</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "bin(transaction_hour, binWidth=1)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 13,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "de341270",
+      "displayName": "Categorical_features_distributions",
+      "layout": [
+        {
+          "widget": {
+            "name": "549ca510",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"text-align:center;display:block;\"><span style=\"font-weight: 700;font-size: 20px;\">Categorical Features Distribution</span></span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "8283a13c",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "account_type",
+                      "expression": "`account_type`"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": {
+                  "value": "Account Type",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  }
+                ]
+              },
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "account_type",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 5,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "6040ce7a",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "kyc_status",
+                      "expression": "`kyc_status`"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": {
+                  "value": "KYC Status",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  }
+                ]
+              },
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "kyc_status",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 7,
+            "y": 9,
+            "width": 5,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "a72ba036",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "loan_type",
+                      "expression": "`loan_type`"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": {
+                  "value": "Loan Type",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  }
+                ]
+              },
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "loan_type",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 7,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "03145e81",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "merchant_category",
+                      "expression": "`merchant_category`"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": {
+                  "value": "Merchant Category",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  }
+                ]
+              },
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "merchant_category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 3,
+            "width": 7,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "9445a98b",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "state",
+                      "expression": "`state`"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": {
+                  "value": "State",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  }
+                ]
+              },
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "state",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 15,
+            "width": 7,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "295cdce6",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "transaction_direction",
+                      "expression": "`transaction_direction`"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": {
+                  "value": "Transaction Direction",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  }
+                ]
+              },
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "transaction_direction",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 7,
+            "y": 15,
+            "width": 5,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "7d4f0cf4",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "transaction_status",
+                      "expression": "`transaction_status`"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`is_fraud` IN (`is_fraud`) OR TRUE"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": {
+                  "value": "Transaction Status",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  }
+                ]
+              },
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "transaction_status",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 21,
+            "width": 5,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "71b55ede",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "transaction_type",
+                      "expression": "`transaction_type`"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`is_fraud` IN (`is_fraud`) OR TRUE"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": {
+                  "value": "Transaction Type",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  }
+                ]
+              },
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "transaction_type",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 21,
+            "width": 7,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "is_fraud_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f1b4c9603b19b5a75d9ba4584b7667/datasets/01f1b4c983d81ab5ace7726576bc1610_is_fraud",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "is_fraud",
+                      "expression": "`is_fraud`"
+                    },
+                    {
+                      "name": "is_fraud_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "scale": {
+                "type": "categorical",
+                "sort": {
+                  "by": "natural-order"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "title": {
+                  "value": "Is Fraud Filter",
+                  "fields": []
+                }
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "is_fraud",
+                    "queryName": "dashboards/01f1b4c9603b19b5a75d9ba4584b7667/datasets/01f1b4c983d81ab5ace7726576bc1610_is_fraud"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "channel",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "channel",
+                      "expression": "`channel`"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\">Channel</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  }
+                ]
+              },
+              "widgetType": "histogram",
+              "encodings": {
+                "x": {
+                  "fieldName": "channel",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 27,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "eebe1ffa",
+      "displayName": "time_series_analysis",
+      "layout": [
+        {
+          "widget": {
+            "name": "total-fraud-by-time",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "monthly(transaction_date)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `transaction_date`)"
+                    },
+                    {
+                      "name": "sum(is_fraud)",
+                      "expression": "SUM(`is_fraud`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block\"><span style=\"font-size:18px\">Fraud transactions by Time</span></span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "fontColor"
+                  }
+                ]
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "monthly(transaction_date)",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(is_fraud)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "total-transactions-by-time",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "monthly(transaction_date)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `transaction_date`)"
+                    },
+                    {
+                      "name": "count(transaction_id)",
+                      "expression": "COUNT(`transaction_id`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\"><span style=\"font-size: 18px;\">Total Transactions by Time</span></span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "fontColor"
+                  }
+                ]
+              },
+              "widgetType": "area",
+              "encodings": {
+                "x": {
+                  "fieldName": "monthly(transaction_date)",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(transaction_id)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetBorderColor": {
+        "light": "#2272B4",
+        "dark": "#2272B4"
+      },
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED",
+      "fontSettings": {
+        "widgetTitle": {
+          "fontSize": 14
+        }
+      }
+    },
+    "applyModeEnabled": false
+  }
+}
