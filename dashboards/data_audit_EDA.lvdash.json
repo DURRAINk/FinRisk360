@@ -450,7 +450,7 @@
           "position": {
             "x": 0,
             "y": 0,
-            "width": 12,
+            "width": 9,
             "height": 1
           }
         },
@@ -820,6 +820,55 @@
             "width": 12,
             "height": 6
           }
+        },
+        {
+          "widget": {
+            "name": "is-fraud",
+            "queries": [
+              {
+                "name": "dashboards/01f1b4c9603b19b5a75d9ba4584b7667/datasets/01f1b4c983d81ab5ace7726576bc1610_is_fraud",
+                "query": {
+                  "datasetName": "3a213df2",
+                  "fields": [
+                    {
+                      "name": "is_fraud",
+                      "expression": "`is_fraud`"
+                    },
+                    {
+                      "name": "is_fraud_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Is Fraud Filter",
+                  "fields": []
+                }
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "is_fraud",
+                    "queryName": "dashboards/01f1b4c9603b19b5a75d9ba4584b7667/datasets/01f1b4c983d81ab5ace7726576bc1610_is_fraud"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          }
         }
       ],
       "pageType": "PAGE_TYPE_CANVAS",
@@ -841,7 +890,7 @@
           "position": {
             "x": 0,
             "y": 0,
-            "width": 12,
+            "width": 9,
             "height": 1
           }
         },
@@ -907,7 +956,7 @@
           },
           "position": {
             "x": 0,
-            "y": 3,
+            "y": 1,
             "width": 5,
             "height": 6
           }
@@ -974,7 +1023,7 @@
           },
           "position": {
             "x": 7,
-            "y": 9,
+            "y": 7,
             "width": 5,
             "height": 6
           }
@@ -1041,7 +1090,7 @@
           },
           "position": {
             "x": 0,
-            "y": 9,
+            "y": 7,
             "width": 7,
             "height": 6
           }
@@ -1108,7 +1157,7 @@
           },
           "position": {
             "x": 5,
-            "y": 3,
+            "y": 1,
             "width": 7,
             "height": 6
           }
@@ -1175,7 +1224,7 @@
           },
           "position": {
             "x": 0,
-            "y": 15,
+            "y": 13,
             "width": 7,
             "height": 6
           }
@@ -1242,7 +1291,7 @@
           },
           "position": {
             "x": 7,
-            "y": 15,
+            "y": 13,
             "width": 5,
             "height": 6
           }
@@ -1314,7 +1363,7 @@
           },
           "position": {
             "x": 0,
-            "y": 21,
+            "y": 19,
             "width": 5,
             "height": 6
           }
@@ -1386,7 +1435,7 @@
           },
           "position": {
             "x": 5,
-            "y": 21,
+            "y": 19,
             "width": 7,
             "height": 6
           }
@@ -1441,10 +1490,10 @@
             }
           },
           "position": {
-            "x": 0,
-            "y": 1,
-            "width": 12,
-            "height": 2
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 1
           }
         },
         {
@@ -1508,7 +1557,7 @@
           },
           "position": {
             "x": 0,
-            "y": 27,
+            "y": 25,
             "width": 6,
             "height": 6
           }
