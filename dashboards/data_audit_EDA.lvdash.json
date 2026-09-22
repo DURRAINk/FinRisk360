@@ -1606,7 +1606,8 @@
                   {
                     "themeColorType": "fontColor"
                   }
-                ]
+                ],
+                "lineShape": "smooth"
               },
               "widgetType": "line",
               "encodings": {

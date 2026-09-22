@@ -573,9 +573,10 @@ finrisk360/
 ├── databricks/
 │   ├── notebooks/
 │   │   ├── 01_data_audit.py
-│   │   └── 02_feature_engineering.py
-│   ├── jobs/
-│   │   └── feature_pipeline.yml
+│   │   ├── 02_feature_engineering.py
+│   │   └── feature_engineering.md
+│   ├── scripts/
+│   │   └── 03_export_features.py
 │   └── README.md
 ├── azureml/
 │   ├── data_asset.yml
@@ -584,7 +585,7 @@ finrisk360/
 │   └── deployment.yml
 ├── src/
 │   ├── validation.py
-│   ├── preprocessing.py
+│   ├── preprocess.py
 │   ├── evaluate.py
 │   ├── explain.py
 │   └── predict.py
