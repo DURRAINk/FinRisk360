@@ -1,0 +1,11 @@
+$schema: https://azuremlschemas.azureedge.net/latest/data.schema.json
+
+name: transaction-features-tes-data
+version: 1
+type: uri_folder
+
+description: >
+  Test split of the engineered transaction fraud feature dataset.
+  Held out for final model evaluation.
+
+path: azureml://datastores/workspaceblobstore/paths/final-datasets/test/

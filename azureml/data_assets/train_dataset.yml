@@ -1,0 +1,11 @@
+$schema: https://azuremlschemas.azureedge.net/latest/data.schema.json
+
+name: transaction-features-train-data
+version: 1
+type: uri_folder
+
+description: >
+  Training split of the engineered transaction fraud feature dataset.
+  Created in Azure Databricks with point-in-time-correct feature engineering.
+
+path: azureml://datastores/workspaceblobstore/paths/final-datasets/train/
