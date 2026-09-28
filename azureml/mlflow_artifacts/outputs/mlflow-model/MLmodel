@@ -1,0 +1,38 @@
+artifact_path: outputs/mlflow-model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.19
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: pickle
+    sklearn_version: 1.5.1
+metadata:
+  azureml.base_image: mcr.microsoft.com/azureml/curated/ai-ml-automl:41
+  azureml.engine: automl
+mlflow_version: 2.15.1
+model_size_bytes: 225997
+model_uuid: d5a1f76dd4024e1992f46952e8ec9d94
+run_id: gentle_dinner_4jdfgsnt12_1
+signature:
+  inputs: '[{"type": "string", "name": "account_type", "required": true}, {"type":
+    "string", "name": "transaction_type", "required": true}, {"type": "double", "name":
+    "transaction_amount", "required": true}, {"type": "string", "name": "transaction_direction",
+    "required": true}, {"type": "string", "name": "merchant_category", "required":
+    true}, {"type": "string", "name": "state", "required": true}, {"type": "long",
+    "name": "credit_score", "required": true}, {"type": "string", "name": "loan_type",
+    "required": true}, {"type": "double", "name": "emi_amount", "required": true},
+    {"type": "string", "name": "channel", "required": true}, {"type": "string", "name":
+    "kyc_status", "required": true}, {"type": "long", "name": "transaction_hour",
+    "required": true}, {"type": "long", "name": "transaction_minute", "required":
+    true}, {"type": "long", "name": "prior_transaction_count", "required": true},
+    {"type": "double", "name": "amount_to_average_ratio", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "bool", "shape": [-1]}}]'
+  params: null
+utc_time_created: '2026-09-25 05:40:37.813794'
