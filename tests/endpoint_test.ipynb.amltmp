@@ -81,7 +81,7 @@
         "\n",
         "url = 'https://fraud-detection-22654607.centralindia.inference.ml.azure.com/score'\n",
         "# Replace this with the primary/secondary key, AMLToken, or Microsoft Entra ID token for the endpoint\n",
-        "api_key = '7U0eTHUPfALp5DXLaE8Y8JLFzMUh1GvXU9jNiWWSuQpE576o01GHJQQJ99CIAAAAAAAAAAAAINFRAZML2u7G'\n",
+        "api_key = ''\n",
         "if not api_key:\n",
         "    raise Exception(\"A key should be provided to invoke the endpoint\")\n",
         "\n",
