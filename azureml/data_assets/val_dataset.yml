@@ -1,0 +1,11 @@
+$schema: https://azuremlschemas.azureedge.net/latest/data.schema.json
+
+name: transaction-features-val-data
+version: 1
+type: uri_folder
+
+description: >
+  Validation split of the engineered transaction fraud feature dataset.
+  Used for model tuning and hyperparameter selection.
+
+path: azureml://datastores/workspaceblobstore/paths/final-datasets/val/
