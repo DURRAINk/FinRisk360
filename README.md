@@ -308,6 +308,7 @@ Track AutoML experiments
 Azure ML model registry
         ↓
 Azure ML endpoint
+```
 ---
 
 ## Azure Machine Learning AutoML
@@ -360,8 +361,6 @@ Replace the placeholders below with actual values:
 ## Explainability
 
 SHAP is used to explain global model behavior and individual predictions.
-
-```
 
 SHAP values describe features that influenced the model prediction. They should not be interpreted as proof that a feature caused fraud.
 
