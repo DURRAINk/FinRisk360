@@ -501,8 +501,11 @@ This project demonstrates experience with:
 
 ---
 ## Project Snapshots
+### Data Audit Databricks Dashbord 
 ![Data Audit Databricks Dashbord](assets/data_audit.png)
+### Azureml automl model metrics
 ![Azureml automl model metrics](assets/automl_metrics.png)
+### Model SHAP Explaination Beesworm plot 
 ![Model SHAP Explaination Beesworm plot](assets/shap_beesworm.png)
 
 ## Author
